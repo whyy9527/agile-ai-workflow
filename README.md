@@ -18,31 +18,37 @@ This project is a fully MCP-compatible VSCode AI workflow server, supporting agi
 
 1. **Install dependencies**
 
-    ```sh
-    npm install
-    ```
+```sh
+npm install
+```
 
 2. **Configure OpenAI Key**
 
-    Create a `.env` file in the root directory:
+Create a `.env` file in the root directory:
 
-    ```env
-    OPENAI_API_KEY=sk-your-real-openai-key
-    ```
+```env
+OPENAI_API_KEY=sk-your-real-openai-key
+```
 
 3. **Start the server**
 
-    ```sh
-    npx ts-node server.ts
-    ```
+```sh
+npm start
+```
+
+or
+
+```sh
+npx ts-node server.ts
+```
 
 4. **API Endpoints**
 
-    - POST `/tools/{tool}`: Submit a task, returns `task_id`
-    - GET `/tools/{tool}/{task_id}`: Get result
-    - GET `/tools/{tool}/{task_id}/status`: Query status
-    - GET `/tools/{tool}`: Get tool metadata
-    - GET `/manifest.json`: Get all tool metadata
+- POST `/tools/{tool}`: Submit a task, returns `task_id`
+- GET `/tools/{tool}/{task_id}`: Get result
+- GET `/tools/{tool}/{task_id}/status`: Query status
+- GET `/tools/{tool}`: Get tool metadata
+- GET `/manifest.json`: Get all tool metadata
 
 ## Project Structure
 

@@ -20,7 +20,7 @@ const tools = {
 Object.entries(tools).forEach(([toolName, runTool]) => {
   app.post(`/tools/${toolName}`, async (req: Request, res: Response): Promise<void> => {
     const input = JSON.stringify(req.body);
-    const taskId = taskManager.createTask();
+    const taskId = taskManager.createTask(toolName);
     runTool(input)
       .then(result => taskManager.setResult(taskId, result))
       .catch(err => taskManager.setResult(taskId, `Error: ${err}`));
