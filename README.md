@@ -1,65 +1,65 @@
 # Agile AI Workflow MCP Server
 
-本项目是一个完全兼容 MCP 插件的 VSCode AI 工作流服务，支持敏捷团队多角色自动协作（BA、TL、DEV、QA）。
+This project is a fully MCP-compatible VSCode AI workflow server, supporting agile team multi-role collaboration (BA, TL, DEV, QA).
 
-## 功能简介
+## Features
 
-- MCP Server，支持自动发现和调用多个“角色工具”
-- 角色工具包括：
-  - BA（业务分析师）：生成 user stories（YAML）
-  - TL（技术负责人）：拆分技术任务（YAML）
-  - DEV（开发）：生成伪代码与实现建议（Markdown）
-  - QA（测试）：生成测试用例（YAML）
-- 每个工具均为独立 MCP Tool，支持多任务并发、任务状态与结果查询
-- 支持 OpenAI GPT-4o（默认，需配置 API Key）
-- 支持本地 Ollama（可选，见 askLLM.ts）
+- MCP server with automatic discovery and invocation of multiple "role tools"
+- Role tools include:
+  - BA (Business Analyst): Generate user stories (YAML)
+  - TL (Tech Lead): Split user stories into technical tasks (YAML)
+  - DEV (Developer): Generate pseudocode and implementation suggestions (Markdown)
+  - QA (Tester): Generate test cases (YAML)
+- Each tool is an independent MCP Tool, supporting concurrent tasks, status, and result queries
+- Supports OpenAI GPT-4o (default, requires API Key configuration)
+- Supports local Ollama (optional, see askLLM.ts)
 
-## 快速开始
+## Quick Start
 
-1. **安装依赖**
+1. **Install dependencies**
 
-```sh
-npm install
-```
+    ```sh
+    npm install
+    ```
 
-2. **配置 OpenAI Key**
+2. **Configure OpenAI Key**
 
-在根目录新建 `.env` 文件：
+    Create a `.env` file in the root directory:
 
-```
-OPENAI_API_KEY=sk-你的真实OpenAI密钥
-```
+    ```env
+    OPENAI_API_KEY=sk-your-real-openai-key
+    ```
 
-3. **启动服务**
+3. **Start the server**
 
-```sh
-npx ts-node server.ts
-```
+    ```sh
+    npx ts-node server.ts
+    ```
 
-4. **接口说明**
+4. **API Endpoints**
 
-- POST `/tools/{tool}` 提交任务，返回 task_id
-- GET `/tools/{tool}/{task_id}` 获取结果
-- GET `/tools/{tool}/{task_id}/status` 查询状态
-- GET `/tools/{tool}` 获取工具元数据
-- GET `/manifest.json` 获取所有工具元数据
+    - POST `/tools/{tool}`: Submit a task, returns `task_id`
+    - GET `/tools/{tool}/{task_id}`: Get result
+    - GET `/tools/{tool}/{task_id}/status`: Query status
+    - GET `/tools/{tool}`: Get tool metadata
+    - GET `/manifest.json`: Get all tool metadata
 
-## 目录结构
+## Project Structure
 
-```
+```text
 .
-├── tools/         # 各敏捷角色工具实现
-├── prompts/       # 各角色 LLM prompt
-├── utils/askLLM.ts# LLM 调用封装（支持 OpenAI/Ollama）
-├── taskManager.ts # 任务状态与结果缓存
-├── server.ts      # 主服务入口
-├── manifest.json  # MCP 插件元数据
-├── .env           # OpenAI 密钥（已被 .gitignore 忽略）
+├── tools/         # Implementation of each agile role tool
+├── prompts/       # LLM prompts for each role
+├── utils/askLLM.ts# LLM call wrapper (supports OpenAI/Ollama)
+├── taskManager.ts # Task status and result cache
+├── server.ts      # Main server entry
+├── manifest.json  # MCP plugin metadata
+├── .env           # OpenAI key (ignored by .gitignore)
 └── .gitignore
 ```
 
-## 说明
+## Notes
 
-- 默认只用 OpenAI，如需 Ollama 本地模型请修改 `askLLM.ts`
-- 适配 VSCode MCP 插件自动发现与调用
-- 仅供学习与团队敏捷协作自动化参考
+- Uses OpenAI by default. To use local Ollama, modify `askLLM.ts`
+- Compatible with VSCode MCP plugin auto-discovery and invocation
+- For learning and agile team automation reference only
