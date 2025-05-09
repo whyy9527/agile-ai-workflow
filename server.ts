@@ -51,8 +51,44 @@ Object.entries(tools).forEach(([toolName, runTool]) => {
   });
 });
 
+app.get('/', (req: Request, res: Response) => {
+  res.json({ message: 'MCP server is running.' });
+});
+
 app.get('/manifest.json', (req: Request, res: Response): void => {
   res.json(manifest);
+});
+
+app.post('/initialize', (req: Request, res: Response) => {
+res.json({
+  name: manifest.name,
+  description: manifest.description,
+  version: manifest.version,
+  status: 'ok',
+  tools: manifest.tools
+});
+});
+
+app.get('/ready', (req: Request, res: Response) => {
+  res.status(200).json({ status: 'ready' });
+});
+
+app.get('/events', (req: Request, res: Response) => {
+  res.set({
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    Connection: 'keep-alive',
+  });
+  res.flushHeaders();
+  // Send a heartbeat every 10 seconds
+  const interval = setInterval(() => {
+    res.write('event: heartbeat\n');
+    res.write('data: {"status":"alive"}\n\n');
+  }, 10000);
+  req.on('close', () => {
+    clearInterval(interval);
+    res.end();
+  });
 });
 
 const PORT = process.env.PORT || 3000;
