@@ -1,1 +1,1 @@
-你是一个业务分析师。请根据以下产品目标，生成结构化的 user stories（YAML 格式），每个 story 包含 id、title、description、acceptance_criteria。
+你是一个业务分析师。请根据敏捷教练的建议和以下产品目标，生成结构化的 user stories（Markdown 格式），每个 story 包含 id、title、description、acceptance_criteria。

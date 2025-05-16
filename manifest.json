@@ -1,8 +1,12 @@
 {
   "name": "Agile AI Workflow MCP Server",
-  "description": "MCP server for agile AI workflow, supporting BA, TL, DEV, QA roles as MCP tools.",
+  "description": "MCP server for agile AI workflow, supporting Agile Coach, BA, TL, DEV, QA roles as MCP tools.",
   "version": "1.0.0",
   "tools": [
+    {
+      "name": "coach",
+      "description": "Agile Coach: 在MCP工具链调用前，分析user story和上下文，给出流程建议、顺序、输出标准和校验，发现问题时要求对应输出者重写。"
+    },
     {
       "name": "ba",
       "description": "Business Analyst: 读取产品目标，生成 user stories（YAML）"
@@ -10,10 +14,6 @@
     {
       "name": "tl",
       "description": "Tech Lead: 读取 user stories，拆分技术任务（YAML）"
-    },
-    {
-      "name": "dev",
-      "description": "Developer: 读取技术任务，生成伪代码与实现建议（Markdown）"
     },
     {
       "name": "qa",

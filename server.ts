@@ -9,12 +9,11 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
-import manifest from './manifest.json';
-import { runTool as runBA } from './tools/ba.tool';
-import { runTool as runTL } from './tools/tl.tool';
-import { runTool as runDEV } from './tools/dev.tool';
-import { runTool as runQA } from './tools/qa.tool';
-import { outputLogger } from './utils/outputLogger';
+import manifest from './manifest.json' with { type: "json" };
+import { runTool as runBA } from './tools/ba.tool.ts';
+import { runTool as runTL } from './tools/tl.tool.ts';
+import { runTool as runQA } from './tools/qa.tool.ts';
+import { outputLogger } from './utils/outputLogger.ts';
 
 const app = express();
 app.use(express.json());
@@ -79,18 +78,6 @@ app.post('/mcp', async (req: Request, res: Response) => {
       async ({ input }) => {
         const output = await runTL(input);
         await outputLogger.saveOutput('tl', output);
-        return {
-          content: [{ type: 'text', text: output }]
-        };
-      }
-    );
-    
-    server.tool(
-      'dev',
-      { input: z.string() },
-      async ({ input }) => {
-        const output = await runDEV(input);
-        await outputLogger.saveOutput('dev', output);
         return {
           content: [{ type: 'text', text: output }]
         };

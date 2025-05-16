@@ -18,7 +18,7 @@ export async function runTool(input: string, storyId?: string): Promise<string> 
       await fs.writeFile(storyPath, storyMarkdown, 'utf-8');
     }
   }
-  const promptPath = path.join(__dirname, '../prompts/qa.txt');
+  const promptPath = path.join(__dirname, '../prompts/coach.txt');
   const prompt = await fs.readFile(promptPath, 'utf-8');
   const llmInput = storyMarkdown ? `${storyMarkdown}\n\n${input}` : input;
   const output = await askLLM(prompt, llmInput);
