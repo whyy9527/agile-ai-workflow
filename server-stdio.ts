@@ -3,8 +3,8 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { runTool as runBA } from './tools/ba.tool.ts';
 import { runTool as runTL } from './tools/tl.tool.ts';
-import { runTool as runDEV } from './tools/dev.tool.ts';
 import { runTool as runQA } from './tools/qa.tool.ts';
+import { runTool as runCoach } from './tools/coach.tool.ts';
 import { outputLogger } from './utils/outputLogger.ts';
 import manifest from './manifest.json' with { type: "json" };
 
@@ -49,11 +49,11 @@ server.tool(
 );
 
 server.tool(
-  'dev',
+  'qa',
   { input: z.string() },
   async ({ input }) => {
-    const output = await runDEV(input);
-    await outputLogger.saveOutput('dev', output);
+    const output = await runQA(input);
+    await outputLogger.saveOutput('qa', output);
     return {
       content: [{ type: 'text', text: output }]
     };
@@ -61,11 +61,11 @@ server.tool(
 );
 
 server.tool(
-  'qa',
+  'coach',
   { input: z.string() },
   async ({ input }) => {
-    const output = await runQA(input);
-    await outputLogger.saveOutput('qa', output);
+    const output = await runCoach(input);
+    await outputLogger.saveOutput('coach', output);
     return {
       content: [{ type: 'text', text: output }]
     };

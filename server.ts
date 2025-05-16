@@ -13,6 +13,7 @@ import manifest from './manifest.json' with { type: "json" };
 import { runTool as runBA } from './tools/ba.tool.ts';
 import { runTool as runTL } from './tools/tl.tool.ts';
 import { runTool as runQA } from './tools/qa.tool.ts';
+import { runTool as runCoach } from './tools/coach.tool.ts';
 import { outputLogger } from './utils/outputLogger.ts';
 
 const app = express();
@@ -90,6 +91,18 @@ app.post('/mcp', async (req: Request, res: Response) => {
       async ({ input }) => {
         const output = await runQA(input);
         await outputLogger.saveOutput('qa', output);
+        return {
+          content: [{ type: 'text', text: output }]
+        };
+      }
+    );
+
+    server.tool(
+      'coach',
+      { input: z.string() },
+      async ({ input }) => {
+        const output = await runCoach(input);
+        await outputLogger.saveOutput('coach', output);
         return {
           content: [{ type: 'text', text: output }]
         };
