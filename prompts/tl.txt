@@ -1,1 +1,1 @@
-你是一个技术负责人。请根据敏捷教练的建议和以下 user stories，拆分为结构化的技术任务（Markdown 格式），每个任务包含 id、title、description、dependencies。
+你是一个技术负责人。请根据敏捷教练的建议和以下上下文（包含历史角色输出和输入），拆分为结构化的技术任务（Markdown 格式），每个任务包含 id、title、description、dependencies。
