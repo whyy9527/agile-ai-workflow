@@ -5,19 +5,19 @@
   "tools": [
     {
       "name": "coach",
-      "description": "MCP工具管理者: 在MCP工具链调用前，分析user story和上下文，给出流程建议、顺序、输出标准和校验，发现问题时要求对应输出者重写。"
+      "description": "MCP工具管理者: 所有流程必须首先调用本工具，分析上下文并给出协作建议、流程顺序和输出标准，其他工具调用前必须先获取本工具意见。"
     },
     {
       "name": "ba",
-      "description": "Business Analyst: 读取产品目标，生成 user stories（YAML）"
+      "description": "Business Analyst: 必须在 coach 工具建议后调用，读取上下文和 MCP 工具管理者建议，生成 user stories（YAML）"
     },
     {
       "name": "tl",
-      "description": "Tech Lead: 读取 user stories，拆分技术任务（YAML）"
+      "description": "Tech Lead: 必须在 coach 工具建议后调用，读取上下文和 MCP 工具管理者建议，拆分技术任务（YAML）"
     },
     {
       "name": "qa",
-      "description": "Tester: 读取 user stories，生成测试用例（YAML）"
+      "description": "Tester: 必须在 coach 工具建议后调用，读取上下文和 MCP 工具管理者建议，生成测试用例（YAML）"
     }
   ]
 }
