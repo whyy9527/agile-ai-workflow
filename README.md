@@ -36,20 +36,6 @@ OPENAI_API_KEY=sk-your-real-openai-key
 npm start
 ```
 
-or
-
-```sh
-npx ts-node server.ts
-```
-
-4. **API Endpoints**
-
-- POST `/tools/{tool}`: Submit a task, returns `task_id`
-- GET `/tools/{tool}/{task_id}`: Get result
-- GET `/tools/{tool}/{task_id}/status`: Query status
-- GET `/tools/{tool}`: Get tool metadata
-- GET `/manifest.json`: Get all tool metadata
-
 ## Project Structure
 
 ```text
@@ -69,3 +55,11 @@ npx ts-node server.ts
 - Uses OpenAI by default. To use local Ollama, modify `askLLM.ts`
 - Compatible with VSCode MCP plugin auto-discovery and invocation
 - For learning and agile team automation reference only
+
+## Alternative Start (Stdio Mode)
+
+To run the server in stdio mode (for VSCode MCP extension integration):
+
+```sh
+npm run --prefix /Users/$(whoami)/Desktop/agile-ai-workflow start:stdio
+```
