@@ -1,6 +1,7 @@
 {
+  "type": "module",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.11.1",
+    "@modelcontextprotocol/sdk": "^1.11.3",
     "@slidev/cli": "^51.6.0",
     "@slidev/theme-default": "^0.25.0",
     "@slidev/theme-seriph": "^0.25.0",
@@ -14,10 +15,13 @@
     "zod": "^3.24.4"
   },
   "devDependencies": {
+    "@tsconfig/node22": "^22.0.1",
     "@types/axios": "^0.9.36",
-    "dotenv-cli": "^8.0.0"
+    "dotenv-cli": "^8.0.0",
+    "tsx": "^4.19.4"
   },
   "scripts": {
-    "start": "npx dotenv -e .env ts-node server.ts"
+    "start": "npx dotenv -e .env ts-node server.ts",
+    "start:stdio": "npx dotenv -e .env tsx server-stdio.ts"
   }
 }

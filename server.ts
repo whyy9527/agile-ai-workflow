@@ -19,6 +19,11 @@ import { outputLogger } from './utils/outputLogger';
 const app = express();
 app.use(express.json());
 
+// 健康检查或欢迎页，防止 404
+app.get('/', (req, res) => {
+  res.status(200).send('MCP server is running. Use /mcp for API requests.');
+});
+
 // Map to store transports by session ID
 const transports: { [sessionId: string]: StreamableHTTPServerTransport } = {};
 

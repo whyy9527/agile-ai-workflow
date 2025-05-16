@@ -30,6 +30,6 @@ export async function askLLM(
     return askOpenAI(prompt, input);
   }
   // 支持自定义 Ollama 模型，默认 qwen3:4b，可传 gemma3:4b
-  const model = _options?.model || 'qwen3:4b';
+  const model = _options?.model || 'gemma3:4b' ||'qwen3:4b';
   return askOllama(prompt, input, model);
 }
