@@ -8,14 +8,16 @@
     "axios": "^1.9.0",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "openai": "^4.98.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
     "zod": "^3.24.4"
   },
   "devDependencies": {
-    "@types/axios": "^0.9.36"
+    "@types/axios": "^0.9.36",
+    "dotenv-cli": "^8.0.0"
   },
   "scripts": {
-    "start": "npx ts-node server.ts"
+    "start": "npx dotenv -e .env ts-node server.ts"
   }
 }
