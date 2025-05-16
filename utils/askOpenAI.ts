@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { outputLogger } from './outputLogger';
+import { outputLogger } from './outputLogger.ts';
 import fs from 'fs/promises';
 import path from 'path';
 

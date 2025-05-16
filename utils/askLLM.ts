@@ -1,11 +1,5 @@
-import OpenAI from 'openai';
-import fs from 'fs/promises';
-import path from 'path';
-import { outputLogger } from './outputLogger';
-import { askOpenAI } from './askOpenAI';
-import axios from 'axios';
-import { askOllama } from './askOllama';
-import { logApiDetails } from './logApiDetails';
+import { askOpenAI } from './askOpenAI.ts';
+import { askOllama } from './askOllama.ts';
 
 const OPENAI_MODEL = 'gpt-4o';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;

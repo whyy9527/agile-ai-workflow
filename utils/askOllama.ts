@@ -1,7 +1,5 @@
 import axios from 'axios';
-import { logApiDetails } from './logApiDetails';
-import fs from 'fs/promises';
-import path from 'path';
+import { logApiDetails } from './logApiDetails.ts';
 
 export async function askOllama(prompt: string, input: string, model: string = 'qwen3:4b'): Promise<string> {
   try {
