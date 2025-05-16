@@ -4,6 +4,7 @@ import path from 'path';
 import { outputLogger } from './outputLogger';
 import { askOpenAI } from './askOpenAI';
 import axios from 'axios';
+import { askOllama } from './askOllama';
 
 const OPENAI_MODEL = 'gpt-4o';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
@@ -27,12 +28,16 @@ async function logApiDetails(type: string, details: any): Promise<void> {
     if (type === 'request' && details.headers && details.headers.Authorization) {
       details.headers.Authorization = 'Bearer ********';
     }
+    const safeDetails = { ...details };
+    if (safeDetails.data && typeof safeDetails.data === 'object') {
+      safeDetails.data = '[stream/circular omitted]';
+    }
     const logDir = path.join(process.cwd(), 'outputs', 'api-logs');
     await fs.mkdir(logDir, { recursive: true });
     const timestamp = new Date().toISOString().replace(/:/g, '-');
     const filename = `api_${type}_${timestamp}.json`;
     const filePath = path.join(logDir, filename);
-    await fs.writeFile(filePath, JSON.stringify(details, null, 2), 'utf-8');
+    await fs.writeFile(filePath, JSON.stringify(safeDetails, null, 2), 'utf-8');
     console.log(`API ${type} logged to ${filePath}`);
   } catch (error) {
     console.error(`Error logging API ${type}:`, error);
@@ -42,44 +47,13 @@ async function logApiDetails(type: string, details: any): Promise<void> {
 export async function askLLM(
   prompt: string,
   input: string,
-  _options?: { provider?: 'ollama' | 'openai' }
+  _options?: { provider?: 'ollama' | 'openai', model?: string }
 ): Promise<string> {
   const provider = _options?.provider || 'ollama';
-  return ''
   if (provider === 'openai') {
     return askOpenAI(prompt, input);
   }
-  // Default: use local Ollama (qwen3:4b)
-  try {
-    const response = await axios.post(
-      'http://localhost:11434/api/chat',
-      {
-        model: 'qwen3:4b',
-        messages: [
-          { role: 'system', content: prompt },
-          { role: 'user', content: input }
-        ]
-      },
-      { headers: { 'Content-Type': 'application/json' }, responseType: 'stream' }
-    );
-    let result = '';
-    const stream = response.data as NodeJS.ReadableStream;
-    for await (const chunk of stream) {
-      const lines = chunk.toString().split('\n').filter(Boolean);
-      for (const line of lines) {
-        try {
-          const obj = JSON.parse(line);
-          if (obj.message && obj.message.content) {
-            result += obj.message.content;
-          }
-        } catch (e) {
-          // 跳过解析失败的行
-        }
-      }
-    }
-    return result.trim();
-  } catch (error: any) {
-    console.error('Ollama API request failed:', error);
-    throw error;
-  }
+  // 支持自定义 Ollama 模型，默认 qwen3:4b，可传 gemma3:4b
+  const model = _options?.model || 'qwen3:4b';
+  return askOllama(prompt, input, model);
 }
