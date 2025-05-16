@@ -15,13 +15,6 @@ const server = new McpServer({
   description: manifest.description
 });
 
-// Add an addition tool
-server.tool("add",
-  { a: z.number(), b: z.number() },
-  async ({ a, b }) => ({
-    content: [{ type: "text", text: String(a + b) }]
-  })
-);
 
 // Register tools (all take a string input)
 server.tool(
