@@ -4,7 +4,7 @@ import { z } from "zod";
 import { runTool as runBA } from './tools/ba.tool.ts';
 import { runTool as runTL } from './tools/tl.tool.ts';
 import { runTool as runQA } from './tools/qa.tool.ts';
-import { runTool as runCoach } from './tools/coach.tool.ts';
+import { runTool as runFacilitator } from './tools/facilitator.tool.ts';
 import { outputLogger } from './utils/outputLogger.ts';
 import manifest from './manifest.json' with { type: "json" };
 
@@ -21,7 +21,7 @@ server.tool(
   'ba',
   { input: z.string() },
   async ({ input }) => {
-    const output = await runBA(input);
+    const output = await runBA(input, '001');
     await outputLogger.saveOutput('ba', output);
     return {
       content: [{ type: 'text', text: output }]
@@ -33,7 +33,7 @@ server.tool(
   'tl',
   { input: z.string() },
   async ({ input }) => {
-    const output = await runTL(input);
+    const output = await runTL(input, '001');
     await outputLogger.saveOutput('tl', output);
     return {
       content: [{ type: 'text', text: output }]
@@ -45,7 +45,7 @@ server.tool(
   'qa',
   { input: z.string() },
   async ({ input }) => {
-    const output = await runQA(input);
+    const output = await runQA(input, '001');
     await outputLogger.saveOutput('qa', output);
     return {
       content: [{ type: 'text', text: output }]
@@ -54,11 +54,11 @@ server.tool(
 );
 
 server.tool(
-  'coach',
+  'facilitator',
   { input: z.string() },
   async ({ input }) => {
-    const output = await runCoach(input);
-    await outputLogger.saveOutput('coach', output);
+    const output = await runFacilitator(input, '001');
+    await outputLogger.saveOutput('facilitator', output);
     return {
       content: [{ type: 'text', text: output }]
     };

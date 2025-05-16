@@ -33,7 +33,7 @@ mdc: true
 
 ## 背景：为什么要做这件事？
 
-- 我们希望借助**MCP工具管理者**这一角色帮助AI处理这些问题：
+- 我们希望借助**MCP Facilitator**这一角色帮助AI处理这些问题：
   - 明确职责、拆分阶段
   - 小步快跑、快速反馈
   - 可复用流程与模板
@@ -49,14 +49,14 @@ mdc: true
 
 ---
 
-## 为什么 MCP 工具管理者很重要？
+## 为什么 MCP Facilitator 很重要？
 
-- MCP 工具管理者强调**流程把控 + 快速反馈**，适合 AI 快速试错与迭代
+- MCP Facilitator 强调**流程把控 + 快速反馈**，适合 AI 快速试错与迭代
 - 分阶段明确职责，让每一位 AI 角色聚焦在专业能力上
 - 工作被结构化后，更容易自动化、度量、优化
 - 与人类协作更自然：你作为 PO，可以像带团队一样带一组 AI
 
-💡 MCP 工具管理者不仅是方法论，更是一种高效组织智能体协作的方式
+💡 MCP Facilitator 不仅是方法论，更是一种高效组织智能体协作的方式
 
 ---
 
@@ -65,7 +65,7 @@ mdc: true
 > **Model Context Protocol** 是一个定义 AI 工具标准接口的协议，支持多角色上下文、插件集成与自动调用。
 
 - 本项目遵循 MCP 的 Tool 接口规范
-- 每个角色（BA、TL、DEV、QA）是一个 Tool
+- 每个角色（BA、TL、DEV、QA、Facilitator）是一个 Tool
 - 每个 Tool 通过 API 接收输入、返回结果
 - MCP 插件可自动识别工具并管理调用流程
 
@@ -93,7 +93,7 @@ mdc: true
 
 | 角色 | 工具名 | 输入 | 输出 | 格式 |
 |------|--------|------|------|------|
-| MCP工具管理者 | coach  | 上下文 | 协作建议 | Markdown |
+| MCP Facilitator | facilitator  | 上下文 | 协作建议 | Markdown |
 | BA   | ba     | 上下文 | 用户故事 | YAML |
 | TL   | tl     | 上下文 | 技术任务 | YAML |
 | DEV  | dev    | 技术任务 | 实现建议 | Markdown |
@@ -104,7 +104,7 @@ mdc: true
 ## 示例流程
 
 1. PO 提供目标：“用户可上传头像”
-2. `coach`：产出协作建议
+2. `facilitator`：产出协作建议
 3. `ba`：产出 User Stories
 4. `tl`：拆解为 Tech Tasks
 5. `dev`：输出伪代码 + 实现建议
