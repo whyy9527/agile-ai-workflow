@@ -2,6 +2,8 @@ import OpenAI from 'openai';
 import fs from 'fs/promises';
 import path from 'path';
 import { outputLogger } from './outputLogger';
+import { askOpenAI } from './askOpenAI';
+import axios from 'axios';
 
 const OPENAI_MODEL = 'gpt-4o';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
@@ -42,57 +44,42 @@ export async function askLLM(
   input: string,
   _options?: { provider?: 'ollama' | 'openai' }
 ): Promise<string> {
-  console.log(`Making API request to OpenAI with model ${OPENAI_MODEL}`);
-  console.log(`API Key present: ${Boolean(OPENAI_API_KEY)}`);
-  console.log(`OPENAI_API_KEY (masked): ${OPENAI_API_KEY ? OPENAI_API_KEY.slice(0, 5) + '...' : 'undefined'}`);
-
-  const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
-
-  // Log request details
-  await logApiDetails('request', {
-    provider: 'openai',
-    model: OPENAI_MODEL,
-    prompt,
-    input
-  });
-
+  const provider = _options?.provider || 'ollama';
+  return ''
+  if (provider === 'openai') {
+    return askOpenAI(prompt, input);
+  }
+  // Default: use local Ollama (qwen3:4b)
   try {
-    const response = await openai.chat.completions.create({
-      model: OPENAI_MODEL,
-      messages: [
-        { role: 'system', content: prompt },
-        { role: 'user', content: input }
-      ]
-    });
-
-    // Log successful response
-    await logApiDetails('response', {
-      status: 200,
-      data: response
-    });
-
-    // Extract the content from the response
-    const content = response.choices?.[0]?.message?.content?.trim?.() || '';
-    return content;
-  } catch (error: any) {
-    console.error('OpenAI API request failed:');
-    console.error('Error stack:', error?.stack);
-    console.error('Error details:', error);
-    // Log error details
-    await logApiDetails('error', {
-      message: error instanceof Error ? error.message : String(error),
-      stack: error?.stack,
-      error
-    });
-    // Save error to logs using outputLogger
-    await outputLogger.saveOutput('api-error',
-      JSON.stringify({
-        timestamp: new Date().toISOString(),
-        message: error instanceof Error ? error.message : String(error),
-        stack: error?.stack,
-        error
-      }, null, 2)
+    const response = await axios.post(
+      'http://localhost:11434/api/chat',
+      {
+        model: 'qwen3:4b',
+        messages: [
+          { role: 'system', content: prompt },
+          { role: 'user', content: input }
+        ]
+      },
+      { headers: { 'Content-Type': 'application/json' }, responseType: 'stream' }
     );
+    let result = '';
+    const stream = response.data as NodeJS.ReadableStream;
+    for await (const chunk of stream) {
+      const lines = chunk.toString().split('\n').filter(Boolean);
+      for (const line of lines) {
+        try {
+          const obj = JSON.parse(line);
+          if (obj.message && obj.message.content) {
+            result += obj.message.content;
+          }
+        } catch (e) {
+          // 跳过解析失败的行
+        }
+      }
+    }
+    return result.trim();
+  } catch (error: any) {
+    console.error('Ollama API request failed:', error);
     throw error;
   }
 }
