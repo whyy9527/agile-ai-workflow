@@ -1,11 +1,11 @@
 {
   "name": "Agile AI Workflow MCP Server",
-  "description": "MCP server for agile AI workflow, supporting Agile Coach, BA, TL, DEV, QA roles as MCP tools.",
+  "description": "MCP server for agile AI workflow, supporting MCP工具管理者, BA, TL, DEV, QA roles as MCP tools.",
   "version": "1.0.0",
   "tools": [
     {
       "name": "coach",
-      "description": "Agile Coach: 在MCP工具链调用前，分析user story和上下文，给出流程建议、顺序、输出标准和校验，发现问题时要求对应输出者重写。"
+      "description": "MCP工具管理者: 在MCP工具链调用前，分析user story和上下文，给出流程建议、顺序、输出标准和校验，发现问题时要求对应输出者重写。"
     },
     {
       "name": "ba",
